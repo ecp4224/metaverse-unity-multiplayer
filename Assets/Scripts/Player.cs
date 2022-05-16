@@ -55,6 +55,9 @@ public class Player : BindableNetworkBehavior
 
     [BindComponent()]
     private PlayerInput _pInput;
+    
+    [BindComponent()]
+    private PlayerPickup _pPickup;
 
     [BindComponent()]
     private CharacterController _character;
@@ -68,6 +71,9 @@ public class Player : BindableNetworkBehavior
 
     [Inject]
     private PlayerCameraSetup CameraSetup;
+
+    [Inject]
+    private PlayerCameraUISetup CameraUISetup;
 
     [BindComponent]
     private Animator _animator;
@@ -152,6 +158,11 @@ public class Player : BindableNetworkBehavior
             
             CameraSetup.LocalPlayer = this;
             CameraChange.StartCamera();
+            Debug.Log($"Pickup : {_pPickup} MainCamera: {CameraUISetup.mainCamera}");
+            if (_pPickup)
+            {
+                _pPickup.playerCameraTransform = CameraUISetup.mainCamera;
+            }
 
             StartCoroutine(RestartInput());
 

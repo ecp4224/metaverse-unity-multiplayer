@@ -1,27 +1,47 @@
 ﻿using System;
 using Nethereum.Web3;
 using UnityEngine;
+using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.NEthereum;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Unity.Utils;
 
 namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.ContractDefinition.Providers
 {
-    [RequireComponent(typeof(WalletConnect))]
-    public class WalletConnectWeb3Provider : Wallet
+    public class WalletConnectWeb3Provider : IProvider
     {
-        [BindComponent]
         private WalletConnect _walletConnect;
+        private ClientMeta meta;
         
-        public override bool Connected
+        public WalletConnectWeb3Provider(ClientMeta meta)
+        {
+            this.meta = meta;
+        }
+
+        public WalletConnect WalletConnect
         {
             get
             {
-                return _walletConnect.Connected && Web3 != null;
+                return _walletConnect;
             }
         }
 
-        public override string Address
+        public void Start(Wallet wallet)
+        {
+            _walletConnect = wallet.gameObject.AddComponent<WalletConnect>();
+            _walletConnect.AppData = meta;
+            _walletConnect.ConnectedEvent = new WalletConnect.WalletConnectEventNoSession();
+        }
+        
+        public bool Connected
+        {
+            get
+            {
+                return _walletConnect.Connected;
+            }
+        }
+
+        public string Address
         {
             get
             {
@@ -32,7 +52,7 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             }
         }
 
-        public override int ChainId
+        public int ChainId
         {
             get
             {
@@ -40,11 +60,11 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             }
         }
         
-        protected override void OnProviderReady(Action<Web3> callback)
+        public void OnProviderReady(Action<Web3> callback)
         {
             _walletConnect.ConnectedEvent.AddListener(delegate
             {
-                var web3 = _walletConnect.Session.BuildWeb3(infuraId, network).AsWalletAccount();
+                var web3 = _walletConnect.Session.BuildWeb3(Wallet.Current.infuraId, Wallet.Current.network).AsWalletAccount();
 
                 callback(web3);
             });

@@ -21,7 +21,7 @@ public class PickableItem : MonoBehaviour, IPickable
             _rb.isKinematic = true;
         }
         transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
+        // transform.rotation = Quaternion.identity;
         return gameObject;
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4498583018182872418}
   - component: {fileID: 2374275310071762420}
   - component: {fileID: 7495301582805120876}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5344660599823276849}
   - component: {fileID: 1160192065564501960}
   - component: {fileID: 5320809607425260989}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FrontCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,10 +191,13 @@ GameObject:
   - component: {fileID: 3959422407695648457}
   - component: {fileID: 386375835452534058}
   - component: {fileID: 8059208168898394698}
+  - component: {fileID: 2793548348143698426}
+  - component: {fileID: 8735276691052882208}
+  - component: {fileID: 216564182048135853}
   - component: {fileID: -2912197934959882372}
   - component: {fileID: 6521541922366675446}
   - component: {fileID: 7750199602361911311}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,6 +320,49 @@ MonoBehaviour:
     image: 
     description: 
     tokenId: 
+--- !u!114 &2793548348143698426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978349017177122791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 708601b71509389499aae9b095c2a35b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnUse>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8735276691052882208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978349017177122791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ef3595c1c421948b89efa257776f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 1507729379041997031}
+  color: {r: 1, g: 0, b: 0.6703186, a: 0.2627451}
+--- !u!114 &216564182048135853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978349017177122791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ecbe5db1de2e47498699380752932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <KeepWorldPosition>k__BackingField: 0
 --- !u!114 &-2912197934959882372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +438,7 @@ GameObject:
   - component: {fileID: 6987166011237022134}
   - component: {fileID: 7998487977864404756}
   - component: {fileID: 9207610709209066977}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BackCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +538,7 @@ GameObject:
   - component: {fileID: 8155968379089368330}
   - component: {fileID: 3903241983645503773}
   - component: {fileID: 7792503350333487337}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

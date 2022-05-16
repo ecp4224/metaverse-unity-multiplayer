@@ -8,7 +8,8 @@ public class PlayerPickup : MonoBehaviour
 {
     [SerializeField] private LayerMask pickableLayerMask;
 
-    [SerializeField] private Transform playerCameraTransform;
+    // set to public so we can fix this once the player has connected/spawned
+    [SerializeField] public Transform playerCameraTransform;
 
     [SerializeField] private GameObject pickUpUI;
 
@@ -27,8 +28,8 @@ public class PlayerPickup : MonoBehaviour
     [SerializeField]
     private AudioSource pickUpSource;
 
-    public Interactable focus;
-
+    // public Interactable focus;
+    
     private void Start()
     {
         interactionInput.action.performed += PickUp;
@@ -54,11 +55,11 @@ public class PlayerPickup : MonoBehaviour
         {
             inHandItem.transform.SetParent(null);
             inHandItem = null;
-            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-            }
+            // Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            // if (rb != null)
+            // {
+            //     rb.isKinematic = false;
+            // }
         }
     }
 
@@ -71,40 +72,16 @@ public class PlayerPickup : MonoBehaviour
             {
                 inHandItem = pickableItem.PickUp();
                 inHandItem.transform.SetParent(pickUpParent.transform, pickableItem.KeepWorldPosition);
+                if(pickUpSource)
+                    pickUpSource.Play();
             }
-
-            // Debug.Log(hit.collider.name);
-            // Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            // if (hit.collider.GetComponent<Food>() || hit.collider.GetComponent<Weapon>())
-            // {
-            //    Debug.Log("It's food/weapon!");
-            //    inHandItem = hit.collider.gameObject;
-            //    inHandItem.transform.position = Vector3.zero;
-            //    inHandItem.transform.rotation = Quaternion.identity;
-            //    inHandItem.transform.SetParent(pickUpParent.transform, false);
-            //    if (rb != null)
-            //    {
-            //        rb.isKinematic = true;
-            //    }
-            //    return;
-            // }
-            // if (hit.collider.GetComponent<Item>())
-            // {
-            //    Debug.Log("It's a useless item!");
-            //    inHandItem = hit.collider.gameObject;
-            //    inHandItem.transform.SetParent(pickUpParent.transform, true);
-            //    if (rb != null)
-            //    {
-            //        rb.isKinematic = true;
-            //    }
-            //    return;
-            // }
-
         }
     }
 
     private void Update()
     {
+
+        if (!playerCameraTransform) return;
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
 
         if (hit.collider != null)
@@ -112,7 +89,6 @@ public class PlayerPickup : MonoBehaviour
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
         }
-
 
         if (inHandItem != null)
         {
@@ -126,43 +102,43 @@ public class PlayerPickup : MonoBehaviour
                 hitRange,
                 pickableLayerMask))
         {
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null)
-            {
-                SetFocus(interactable);
-            }
+            // var interactable = hit.collider.GetComponent<Interactable>();
+            // if (interactable != null)
+            // {
+            //     SetFocus(interactable);
+            // }
 
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
             pickUpUI.SetActive(true);
         }
-        else
-        {
-            RemoveFocus();
-        }
+        // else
+        // {
+        //     RemoveFocus();
+        // }
     }
 
-    private void SetFocus(Interactable newFocus)
-    {
-        if (newFocus != focus)
-        {
-            if (focus != null)
-                focus.OnDefocused();
-            focus = newFocus;
-        }
-
-        newFocus.OnFocused(transform);
-    }
-
-    private void RemoveFocus()
-    {
-        if (focus != null)
-        {
-            // Debug.Log("RemoveFocucus Called...");
-            focus.OnDefocused();
-        }
-
-        focus = null;
-    }
+    // private void SetFocus(Interactable newFocus)
+    // {
+    //     if (newFocus != focus)
+    //     {
+    //         if (focus != null)
+    //             focus.OnDefocused();
+    //         focus = newFocus;
+    //     }
+    //
+    //     newFocus.OnFocused(transform);
+    // }
+    //
+    // private void RemoveFocus()
+    // {
+    //     if (focus != null)
+    //     {
+    //         // Debug.Log("RemoveFocucus Called...");
+    //         focus.OnDefocused();
+    //     }
+    //
+    //     focus = null;
+    // }
 
     public void AddHealth(int healthBoost)
     {

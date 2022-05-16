@@ -46,7 +46,7 @@ public class NFTDictionary : SerializableDictionaryBase<string, NFTList>
     }
 }
 
-public abstract class Wallet : BindableMonoBehavior
+public class Wallet : BindableMonoBehavior
 {
     public static readonly ReadOnlyDictionary<int, string> MulticallAddressMap = new ReadOnlyDictionary<int, string>(
         new Dictionary<int, string>()
@@ -97,12 +97,31 @@ public abstract class Wallet : BindableMonoBehavior
     }
 
     public Web3 Web3 { get; private set; }
-    
-    public abstract bool Connected { get; }
-    
-    public abstract string Address { get; }
-    
-    public abstract int ChainId { get; }
+
+    private IProvider _provider;
+    public bool Connected
+    {
+        get
+        {
+            return _provider != null && _provider.Connected && Web3 != null;
+        }
+    }
+
+    public string Address
+    {
+        get
+        {
+            return _provider?.Address;
+        }
+    }
+
+    public int ChainId
+    {
+        get
+        {
+            return _provider?.ChainId ?? ChainNameToId[network];
+        }
+    }
 
     public string InfuraURL
     {
@@ -142,7 +161,6 @@ public abstract class Wallet : BindableMonoBehavior
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SetupListeners();
         }
         else
         {
@@ -150,11 +168,12 @@ public abstract class Wallet : BindableMonoBehavior
         }
     }
 
-    protected abstract void OnProviderReady(Action<Web3> callback);
-
-    void SetupListeners()
+    public void SetupListeners(IProvider provider)
     {
-        OnProviderReady(delegate(Web3 web3)
+        _provider = provider;
+        _provider.Start(this);
+        
+        _provider.OnProviderReady(delegate(Web3 web3)
         {
             this.Web3 = web3;
             

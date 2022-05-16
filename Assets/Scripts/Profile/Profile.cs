@@ -63,7 +63,6 @@ namespace UnityTemplateProjects.Profile
 
         public Web3 Connect()
         {                
-            Debug.LogError("PK: " + this.account.PrivateKey);
             var infuraURL = Wallet.Current.InfuraURL;
             if (this.Username == ProfileManager.Instance.GuestProfile.Username)
             {

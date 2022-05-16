@@ -81,15 +81,15 @@ namespace WalletConnectSharp.Unity
         
         public int chainId = 1;
 
-        public WalletConnectEventNoSession ConnectedEvent;
+        public WalletConnectEventNoSession ConnectedEvent = new WalletConnectEventNoSession();
 
-        public WalletConnectEventWithSessionData ConnectedEventSession;
+        public WalletConnectEventWithSessionData ConnectedEventSession = new WalletConnectEventWithSessionData();
 
-        public WalletConnectEventWithSession DisconnectedEvent;
+        public WalletConnectEventWithSession DisconnectedEvent = new WalletConnectEventWithSession();
         
-        public WalletConnectEventWithSession ConnectionFailedEvent;
-        public WalletConnectEventWithSession NewSessionConnected;
-        public WalletConnectEventWithSession ResumedSessionConnected;
+        public WalletConnectEventWithSession ConnectionFailedEvent = new WalletConnectEventWithSession();
+        public WalletConnectEventWithSession NewSessionConnected = new WalletConnectEventWithSession();
+        public WalletConnectEventWithSession ResumedSessionConnected = new WalletConnectEventWithSession();
 
         public WalletConnectUnitySession Session
         {

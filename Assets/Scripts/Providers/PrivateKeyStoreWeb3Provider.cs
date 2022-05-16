@@ -5,15 +5,12 @@ using UnityTemplateProjects.Profile;
 
 namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.ContractDefinition.Providers
 {
-    public class PrivateKeyStoreWeb3Provider : Wallet
+    public class PrivateKeyStoreWeb3Provider : IProvider
     {
-        [InfoBox("Create a new Wallet on Start if no previous Wallet was found.")]
         public bool createNewWalletOnStart = true;
 
-        private async void Start()
+        public async void Start(Wallet wallet)
         {
-            //TODO Get username from somewhere
-
             if (createNewWalletOnStart && ProfileManager.Instance.AllLocalUsernames.Count == 0)
             {
                 string username = "--AUTO--" + Guid.NewGuid().ToString();
@@ -22,15 +19,15 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             }
         }
 
-        public override bool Connected
+        public bool Connected
         {
             get
             {
-                return ProfileManager.Instance.CurrentProfile != null && Web3 != null;
+                return ProfileManager.Instance.CurrentProfile != null;
             }
         }
 
-        public override string Address
+        public string Address
         {
             get
             {
@@ -38,15 +35,15 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             }
         }
 
-        public override int ChainId
+        public int ChainId
         {
             get
             {
-                return ChainNameToId[network];
+                return Wallet.ChainNameToId[Wallet.Current.network];
             }
         }
 
-        protected override void OnProviderReady(Action<Web3> callback)
+        public void OnProviderReady(Action<Web3> callback)
         {
             var pm = ProfileManager.Instance;
             

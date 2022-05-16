@@ -23,7 +23,7 @@ namespace WalletConnectSharp.Unity.Models
             {
                 if (_cache == null)
                 {
-                    throw new IOException("You must run `yield return token.DownloadImageSprite()` first");
+                    Debug.LogWarning("You must run `yield return token.DownloadImageSprite()` first");
                 }
 
                 return _cache;

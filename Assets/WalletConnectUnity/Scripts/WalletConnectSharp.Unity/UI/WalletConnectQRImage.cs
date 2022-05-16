@@ -32,9 +32,13 @@ public class WalletConnectQRImage : BindableMonoBehavior
     {
         if (walletConnect == null)
         {
-            Debug.LogError("WalletConnectQRImage: No WalletConnect object given, QRImage will be disabled");
-            enabled = false;
-            return;
+            walletConnect = FindObjectOfType<WalletConnect>();
+            if (walletConnect == null)
+            {
+                Debug.LogError("WalletConnectQRImage: No WalletConnect object given, QRImage will be disabled");
+                enabled = false;
+                return;
+            }
         }
         
         // Only register the WalletConnectOnConnectionStarted handler once
