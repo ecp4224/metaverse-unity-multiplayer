@@ -237,6 +237,13 @@ public class Player : BindableNetworkBehavior
         
         _serverWallet.CmdPickupNFT(Username, nearestNFT.NftTokenData);
     }
+    
+    [TargetRpc]
+    public void TargetCompleteVendingmachine(NetworkConnection target)
+    {
+        WalletCanvas.ShowScreen("successVending");
+        WalletCanvas.HideLoader();
+    }
 
     [TargetRpc]
     public void TargetCompletePickup(NetworkConnection target)
@@ -404,7 +411,16 @@ public class Player : BindableNetworkBehavior
 
         if (nearestVendingMachine != null)
         {
-            nearestVendingMachine.CmdDoTransaction(Username);
+            transactionToName.Value = nearestVendingMachine.displayName;
+            transactionToAddress.Value = nearestVendingMachine.contractAddress.Substring(0, 4) + "..." +
+                                         nearestVendingMachine.contractAddress.Substring(nearestVendingMachine.contractAddress.Length - 4, 4);
+            transactionToAmount.Value = nearestVendingMachine.payment + " ETH";
+            
+            WalletCanvas.ShowConfirm(delegate
+            {
+                WalletCanvas.ShowLoader();
+                nearestVendingMachine.CmdDoTransaction(Username);
+            });
         }
         else
         {

@@ -46,15 +46,7 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             if (p == null)
                 throw new ArgumentException("Could not find username " + username + " for vending machine buy command");
             
-            p.transactionToName.Value = displayName;
-            p.transactionToAddress.Value = contractAddress.Substring(0, 4) + "..." +
-                                           contractAddress.Substring(contractAddress.Length - 4, 4);
-            p.transactionToAmount.Value = payment + " ETH";
-            
-            p.WalletCanvas.ShowConfirm(delegate
-            {
-                StartCoroutine(SendTransaction(p, payment));
-            });
+            StartCoroutine(SendTransaction(p, payment));
         }
         
         private IEnumerator SendTransaction(Player p, decimal amount)
@@ -70,9 +62,7 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
             };
 
             var transactionTask = buyHandler.SendRequestAndWaitForReceiptAsync(contractAddress, buyCall);
-        
-            p.WalletCanvas.ShowLoader();
-        
+
             yield return new WaitForTaskResult<TransactionReceipt>(transactionTask);
 
             if (transactionTask.IsFaulted)
@@ -121,9 +111,8 @@ namespace ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.Contrac
 
                     _serverWallet.vendingItems.Remove(tokenId.ToString());
                 }
-
-                p.WalletCanvas.ShowScreen("successVending");
-                p.WalletCanvas.HideLoader();
+                
+                p.TargetCompleteVendingmachine(p.connectionToClient);
             }
         }
         
