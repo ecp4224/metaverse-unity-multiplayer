@@ -19,7 +19,11 @@ public class FollowTarget : MonoBehaviour
 
     private void LateUpdate()
     {
-        LookDirection(target.position);
+        if (target.position != Vector3.zero)
+        {
+            LookDirection(target.position);
+        }
+
         Move();
     }
 
@@ -30,6 +34,9 @@ public class FollowTarget : MonoBehaviour
         //this is direction we want this object to face
         Vector3 direction = lookAtGoal - transform.position;
 
+        if (direction == Vector3.zero)
+            return;
+        
         //take our current rotation and turn towards the direction we want little by little
         //at the rate of our rotation speed on a set time
         transform.rotation = Quaternion.Slerp(transform.rotation,
